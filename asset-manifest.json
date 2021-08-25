@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/react_omdb/static/css/main.4f444f16.chunk.css",
+    "main.js": "/react_omdb/static/js/main.812a66be.chunk.js",
+    "main.js.map": "/react_omdb/static/js/main.812a66be.chunk.js.map",
+    "runtime-main.js": "/react_omdb/static/js/runtime-main.c30e06e9.js",
+    "runtime-main.js.map": "/react_omdb/static/js/runtime-main.c30e06e9.js.map",
+    "static/js/2.ac421361.chunk.js": "/react_omdb/static/js/2.ac421361.chunk.js",
+    "static/js/2.ac421361.chunk.js.map": "/react_omdb/static/js/2.ac421361.chunk.js.map",
+    "static/js/3.9d6e7533.chunk.js": "/react_omdb/static/js/3.9d6e7533.chunk.js",
+    "static/js/3.9d6e7533.chunk.js.map": "/react_omdb/static/js/3.9d6e7533.chunk.js.map",
+    "index.html": "/react_omdb/index.html",
+    "static/css/main.4f444f16.chunk.css.map": "/react_omdb/static/css/main.4f444f16.chunk.css.map",
+    "static/js/2.ac421361.chunk.js.LICENSE.txt": "/react_omdb/static/js/2.ac421361.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c30e06e9.js",
+    "static/js/2.ac421361.chunk.js",
+    "static/css/main.4f444f16.chunk.css",
+    "static/js/main.812a66be.chunk.js"
+  ]
+}
