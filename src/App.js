@@ -16,6 +16,9 @@ import Spinner from './components/Spinner';
 import MovieCard from './components/MovieCard';
 import MovieDetailPanel from './components/MovieDetailPanel';
 import MovieList from './components/MovieList';
+import SearchBar from './components/SearchBar';
+import Paginator from './components/Paginator';
+import NavBar from './components/NavBar';
 //#endregion
 
 function App() {
@@ -24,7 +27,11 @@ function App() {
   // console.log(movie);
 
   //States
+  const[showMovieDetailDialog, setMovieDetailDialog] = useState(true);
   const[searchTerm, setSearchTerm] = useState("Batman");
+  const[searchType, setSearchType] = useState(null);
+  const[searchResultTotal, setSearchResultTotal] = useState(1);
+  const[searchResultPage, setSearchResultPage] = useState(1);
   const[isLoading, setIsLoading] = useState(false);
   const[movies, setMovies] = useState([]);
   const[error, setError] = useState(null);
@@ -56,27 +63,24 @@ function App() {
 
   //<MovieCard title={Title} type={Type} posterUrl={Poster}/>
 
-  const UpdateMovieList = () => {
-    getMoviesBySearchTerm("Batman").then((res) => {
-      setMovies((prev) =>{
-        return res.Search;
-      }); 
-    });
-
-    // setMovies((prev) =>{
-    //   return getMoviesBySearchTerm("Batman");
-    // }); 
+  const UpdateMovieList = async () => {
+    
   }
 
   useEffect(() => {
     setIsLoading(true);
 
-    getMoviesBySearchTerm(searchTerm)
-      .then((movieArr) => {
-        console.log(movie);
+    //console.log("Re-rendering page");
+
+    getMoviesBySearchTerm(searchTerm, searchResultPage, {type: searchType} )
+      .then((movieResults) => {
+        //console.log(movie);
         //console.log("Effect anchoring applied");
         setMovies((prev) =>{
-          return movieArr.Search;
+          console.log(movieResults.totalResults);
+          //setSearchResultPage(1);
+          setSearchResultTotal(Math.ceil(movieResults.totalResults / 10));
+          return movieResults.Search;
         });
       })
       .catch((err) =>{
@@ -86,8 +90,9 @@ function App() {
       })
       .finally(() =>{
         setIsLoading(false);
-      });    
-  }, []);
+        setMovieDetailDialog(true);
+      });     
+  }, [searchTerm, searchType, searchResultPage]);
 
   function handleMovieSearch(e){
     e.preventDefault();
@@ -98,32 +103,51 @@ function App() {
     setSearchTerm(movieTitleTerm.current.value);
   }
 
+  function handleSearchSubmit(e){
+    e.preventDefault();
+    console.log("Submit Detected");
+  }
+
   function onCloseHandler(){
     console.log("closing modal");
+    setMovieDetailDialog(false);
+    //UpdateMovieList();
   }
 
   return (
     //Parent wrapper for the purpose of jsx
-    <> 
-      <h1 className="movie_site_title">Welcome to big movie search engine</h1>
+    <div>
+      <NavBar/>
+      <div className="MovieSite_Container"> 
+        {/* <button onClick={UpdateMovieList}>Update Movie List</button> */}
 
-      <button onClick={UpdateMovieList}>Update Movie List</button>
+        {/* <form onSubmit={handleMovieSearch}>
+          <input type="text" placeholder="" ref={movieTitleTerm}/>
+          <button>Submit</button>
+        </form> */}
 
-      <form onSubmit={handleMovieSearch}>
-        <input type="text" placeholder="" ref={movieTitleTerm}/>
-        <button>Submit</button>
-      </form>
+        <SearchBar onSubmitCallback={(term, type) => {
+          setSearchResultPage(1);
+          setSearchTerm(term);
+          setSearchType(type);
+        }}/>
 
-      {/* {isLoading ? <Spinner></Spinner> : <MovieList data={movies} info="Movie Render List"/>} */}
+        <Paginator currentPage={searchResultPage} pageTotal={searchResultTotal} onPageUpdateCallback={(pageNum)=>{setSearchResultPage(pageNum)}}/>
 
-      <Modal show={true} onClose={onCloseHandler}>
-        <p>Test Params</p>
-      </Modal>
-      
-      {/* <div className="movie_detail_panel_container">     
-        <MovieDetailPanel title={Title} posterUrl={Poster} rated={Rated} runtime={Runtime} genre={Genre} plot={Plot} actors={Actors} rating={Ratings}/>
-      </div> */}
-    </>
+        <div className="MovieSearchResults_Container">
+          {isLoading ? <Spinner></Spinner> : <MovieList data={movies} info="Displaying search results"/>}
+
+          {/* <Modal show={showMovieDetailDialog} onClose={onCloseHandler}>
+          </Modal> */}
+          
+          {/* <div className="movie_detail_panel_container">     
+            <MovieDetailPanel title={Title} posterUrl={Poster} rated={Rated} runtime={Runtime} genre={Genre} plot={Plot} actors={Actors} rating={Ratings}/>
+          </div> */}
+
+          <Paginator currentPage={searchResultPage} pageTotal={searchResultTotal} onPageUpdateCallback={(pageNum)=>{setSearchResultPage(pageNum)}}/>
+        </div>
+      </div>
+    </div>
   );
 }
 

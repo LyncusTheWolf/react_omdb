@@ -2,7 +2,34 @@
   color: aqua;  
 }
 
-.movie_list_container{
+/*
+Use BEM system (Block Element Modifier)
+*/
+
+.NavBar{
+  position: sticky;
+  top: 0;
+  background-color: grey;
+  height: 60px;
+  color: white;
+}
+
+.MovieSite_Container{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.MovieSearchResults_Container{
+  background-color: white;
+  border: black;
+  padding: 8px;
+}
+
+/*-------------------
+  MovieList
+-------------------*/
+.MovieList_Container{
   border-style: solid;
   display: flex;
   flex-direction: vertical;
@@ -10,25 +37,29 @@
   flex-wrap: wrap;
 }
 
-.movie_card_container{
+/*-------------------
+  MovieCard
+-------------------*/
+/* .MovieCard_Container{
   border-style: solid;
 }
 
-.movie_poster{
+.MovieCard_Poster{
 
 }
 
-.movie_card_info{
+.MovieCard_Info{
 
 }
 
-.movie_card_button{
+.MovieCard_Button{
 
-}
+} */
 
-.movie_site_title{
+/* .MovieSite_Title{
+  margin-top: 0;
   text-align: center;
-}
+} */
 
 .movie_container_main_body{
   width: 50%;

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { getMovieDetailsById } from '../utils';
 
@@ -14,6 +15,33 @@ import { getMovieDetailsById } from '../utils';
 //     );
 // }
 
+const MovieCard_Container = styled.div`
+    width: 15%;
+    margin: 4px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.5);
+`;
+
+const MovieCard_Poster = styled.img`
+    width: 96%;
+    margin: 2%;
+`;
+
+const MovieCard_Info = styled.div`
+    display:flex;
+    flex-direction: column;
+`;
+
+const MovieCard_Title = styled.p`
+    margin: 4px 16px;
+`;
+
+const MovieCard_Button = styled.button`
+    width: 64px;
+    margin-left: auto;
+    margin-right: auto;
+`;
+
 export const MovieCard = ({title, type, posterUrl, id}) =>{
 
     //console.log(posterUrl);
@@ -23,13 +51,13 @@ export const MovieCard = ({title, type, posterUrl, id}) =>{
     }
 
     return (
-        <div className="movie_card_container">
-            <img src={posterUrl} alt={`${title} poster`} className="movie_poster"/>
-            <div className="movie_card_info">
-                <p>{title}</p>
-                <button className="movie_card_button" onClick={() =>{handleMovieCard(id);}}>{type}</button>
-            </div>
-        </div>
+        <MovieCard_Container>
+            <MovieCard_Poster src={posterUrl} alt={`${title} poster`}/>
+            <MovieCard_Info>
+                <MovieCard_Title>{title}</MovieCard_Title>
+                <MovieCard_Button onClick={() =>{handleMovieCard(id);}}>{type}</MovieCard_Button>
+            </MovieCard_Info>
+        </MovieCard_Container>
     );
 }
 

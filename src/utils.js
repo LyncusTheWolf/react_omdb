@@ -2,55 +2,58 @@ const apiString = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_A
 
 //#region Get search terms
 //#region Promise Chain Handlers
-export const getMoviesBySearchTerm = async (searchTerm) =>
-    await fetch(`${apiString}&s=${searchTerm}`)
-        .then(res => res.json())
-        .then(res => res)
-        .catch(err => err);
+// export const getMoviesBySearchTerm = async (searchTerm) =>
+//     await fetch(`${apiString}&s=${searchTerm}`)
+//         .then(res => res.json())
+//         .then(res => res)
+//         .catch(err => err);
 
-export const getMovieDetailsById = async (movieId="tt3896198") =>
-    await fetch(`${apiString}&i=${movieId}`)
-        .then(res => res.json())
-        .then(res => res)
-        .catch(err => err);
+// export const getMovieDetailsById = async (movieId="tt3896198") =>
+//     await fetch(`${apiString}&i=${movieId}`)
+//         .then(res => res.json())
+//         .then(res => res)
+//         .catch(err => err);
 //#endregion
 
 //region Full Function Calls
-// export const getMoviesBySearchTerm = async (searchTerm) => {
-//     const searchURL = `${apiString}s=${searchTerm}`; // based on the omdbapi docs we need to use s query string
+export const getMoviesBySearchTerm = async (searchTerm, pageNumber, queryOptions) => {
+    const extraQueryStrings = new URLSearchParams(queryOptions).toString();
+    console.log(extraQueryStrings);
+    //&${extraQueryStrings}
+    const searchURL = `${apiString}&s=${searchTerm}&page=${pageNumber}&${extraQueryStrings}`; // based on the omdbapi docs we need to use s query string
+    const response = await fetch(searchURL);
 
-//     const response = await fetch(searchURL);
+    
+    if (!response.ok) {
+        return Promise.reject(response.statusText);
+    }
 
-//     if (!response.ok) {
-//         return Promise.reject(response.statusText);
-//     }
+    const result = await response.json();
 
-//     const result = await response.json();
+    if (result.Response === "True") {
+        return result;
+    }
 
-//     if (result.Response === "True") {
-//         return result.Search;
-//     }
+    return [];
+};
 
-//     return [];
-// };
+export const getMovieDetailsById = async (searchId) => {
+    const searchURL = `${apiString}&i=${searchId}`; // based on the omdbapi docs we need to use i query string
 
-// export const getMovieDetailsById = async (searchId) => {
-//     const searchURL = `${apiString}i=${searchId}`; // based on the omdbapi docs we need to use i query string
+    const response = await fetch(searchURL);
 
-//     const response = await fetch(searchURL);
+    if (!response.ok) {
+        return Promise.reject(response.statusText);
+    }
 
-//     if (!response.ok) {
-//         return Promise.reject(response.statusText);
-//     }
+    const result = await response.json();
 
-//     const result = await response.json();
+    if (result) {
+        return result;
+    }
 
-//     if (result) {
-//         return result;
-//     }
-
-//     return null;
-// };
+    return null;
+};
 //#endregion
 //#endregion
 
@@ -81,6 +84,10 @@ export const convertToLowerCase = (data) => {
     }
 
     console.log(data);
+}
+
+export const clamp = (num, min, max)=>{
+    return Math.min(Math.max(num, min), max);
 }
 
 //#region Legacy Code

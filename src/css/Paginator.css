@@ -1,0 +1,23 @@
+.PaginatorContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.Paginator_Button{
+    background-color: cornflowerblue;
+    padding: 20;
+    border: 0;
+    color: "#fff";
+    font-size: "36px";
+    font-weight: "bold";
+}
+
+.Paginator_Text{
+    margin: 0;
+    padding: 20;
+    height: 100%;
+    background-color: cornflowerblue;
+    font-size: "36px";
+    font-weight: "bold";
+}
